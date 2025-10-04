@@ -9,9 +9,9 @@ class User(models.Model):
         ADMIN = 'ADMIN', 'Administrador'
         COLLABORATOR = 'COLLABORATOR', 'Colaborador'
 
-    role = models.CharField(choices=Role.choices, default=Role.COLLABORATOR);
-    email = models.EmailField(unique=True);
-    password = models.CharField()
+    role = models.CharField(choices=Role.choices, default=Role.COLLABORATOR, max_length=20);
+    email = models.EmailField(unique=True, max_length=200);
+    password = models.TextField()
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
     deletedAt = models.DateTimeField(null=True)
@@ -32,8 +32,8 @@ class Product(models.Model):
     name = models.CharField(max_length=150);
     description = models.CharField(max_length=250);
     quatityStock = models.IntegerField();
-    costPrice = models.DecimalField(decimal_places=2, max_digits=10);
-    salePrice = models.DecimalField(decimal_places=2, max_digits=10);
+    costPrice = models.DecimalField(decimal_places=2, max_digits=10, default=0);
+    salePrice = models.DecimalField(decimal_places=2, max_digits=10, default=0);
     createdAt = models.DateTimeField(auto_now_add=True);
     updatedAt = models.DateTimeField(auto_now=True);
     deletedAt = models.DateTimeField(null=True);
@@ -48,11 +48,11 @@ class MovementStock(models.Model):
         ENTRADA = 'ENTRADA' ,'Entrada'
         SAIDA = 'SAIDA', 'Saída'
     
-    type = models.CharField(choices=Type.choices, default=Type.ENTRADA)
+    type = models.CharField(choices=Type.choices, default=Type.ENTRADA, max_length=10)
     date = models.DateTimeField()
-    quantity = models.IntegerField()
-    productId = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='movements');
-    userId = models.ForeignKey(User, on_delete=models.CASCADE, related_name='movements');
+    quantity = models.IntegerField(default=0)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='movements');
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='movements');
     createdAt = models.DateTimeField(auto_now_add=True);
     updatedAt = models.DateTimeField(auto_now=True);
     deletedAt = models.DateTimeField(null=True);
@@ -62,11 +62,12 @@ class MovementStock(models.Model):
 
 class Supplier(models.Model):
     id = models.AutoField(primary_key=True);
-    name = models.CharField();
+    name = models.CharField(max_length=150);
     cnpj = models.CharField(max_length=18, unique=True);
-    email = models.EmailField(unique=True);
-    phone = models.CharField(max_length=15);
-    address = models.CharField();
+    email = models.EmailField(unique=True, max_length=150);
+    phone = models.CharField(max_length=15, null=True);
+    address = models.TextField();
+    zipCode = models.CharField(max_length=9);
     products = models.ManyToManyField(Product, related_name='suppliers');
     createdAt = models.DateTimeField(auto_now_add=True);
     updatedAt = models.DateTimeField(auto_now=True);
