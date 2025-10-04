@@ -14,7 +14,7 @@ class User(models.Model):
     password = models.TextField()
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
-    deletedAt = models.DateTimeField(null=True)
+    deletedAt = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.name}, ({self.jobTitle}) - {self.role}"
@@ -36,7 +36,7 @@ class Product(models.Model):
     salePrice = models.DecimalField(decimal_places=2, max_digits=10, default=0);
     createdAt = models.DateTimeField(auto_now_add=True);
     updatedAt = models.DateTimeField(auto_now=True);
-    deletedAt = models.DateTimeField(null=True);
+    deletedAt = models.DateTimeField(null=True, blank=True);
     categoryId = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products');
 
     def __str__(self):
@@ -55,7 +55,7 @@ class MovementStock(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='movements');
     createdAt = models.DateTimeField(auto_now_add=True);
     updatedAt = models.DateTimeField(auto_now=True);
-    deletedAt = models.DateTimeField(null=True);
+    deletedAt = models.DateTimeField(null=True, blank=True);
 
     def __str__(self):
         return f"ID: {self.id} - {self.type}\n Data da Movimentação: {self.date}\n Quantidade: {self.quantity}"
@@ -71,7 +71,7 @@ class Supplier(models.Model):
     products = models.ManyToManyField(Product, related_name='suppliers');
     createdAt = models.DateTimeField(auto_now_add=True);
     updatedAt = models.DateTimeField(auto_now=True);
-    deletedAt = models.DateTimeField(null=True);
+    deletedAt = models.DateTimeField(null=True, blank=True);
 
     def __str__(self):
         return f"ID: {self.id} - {self.name}\n CNPJ: {self.cnpj}\n Email: {self.email}\n Telefone: {self.phone}\n Endereço: {self.address}"
