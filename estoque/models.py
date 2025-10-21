@@ -26,6 +26,9 @@ class Category(models.Model):
 
     def __str__(self):
         return f"ID: {self.id} - {self.name}\n Descrição: {self.description}"
+    
+    class Meta:
+        verbose_name_plural = "Categories"
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True);
