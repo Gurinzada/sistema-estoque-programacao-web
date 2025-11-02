@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class User(models.Model):
     id = models.AutoField(primary_key= True);
     name = models.CharField(max_length=150);
@@ -16,16 +15,16 @@ class User(models.Model):
     updatedAt = models.DateTimeField(auto_now=True)
     deletedAt = models.DateTimeField(null=True, blank=True)
 
-    def __str__(self):
-        return f"{self.name}, ({self.jobTitle}) - {self.role}"
+    # def __str__(self):
+    #     return f"{self.name}, ({self.jobTitle}) - {self.role}"
 
 class Category(models.Model):
     id = models.AutoField(primary_key=True);
     name = models.CharField(max_length=150, unique=True);
     description = models.CharField(max_length=250);
 
-    def __str__(self):
-        return f"ID: {self.id} - {self.name}\n Descrição: {self.description}"
+    # def __str__(self):
+    #     return f"ID: {self.id} - {self.name}\n Descrição: {self.description}"
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True);
@@ -39,8 +38,8 @@ class Product(models.Model):
     deletedAt = models.DateTimeField(null=True, blank=True);
     categoryId = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products');
 
-    def __str__(self):
-        return f"ID: {self.id} - {self.name}\n Descrição: {self.description}\n Quantidade em estoque: {self.quatityStock}\n Preço de custo: {self.costPrice}\n Preço de venda: {self.salePrice}"
+    # def __str__(self):
+    #     return f"ID: {self.id} - {self.name}\n Descrição: {self.description}\n Quantidade em estoque: {self.quatityStock}\n Preço de custo: {self.costPrice}\n Preço de venda: {self.salePrice}"
 
 class MovementStock(models.Model):
     id = models.AutoField(primary_key=True);
@@ -57,8 +56,8 @@ class MovementStock(models.Model):
     updatedAt = models.DateTimeField(auto_now=True);
     deletedAt = models.DateTimeField(null=True, blank=True);
 
-    def __str__(self):
-        return f"ID: {self.id} - {self.type}\n Data da Movimentação: {self.date}\n Quantidade: {self.quantity}"
+    # def __str__(self):
+    #     return f"ID: {self.id} - {self.type}\n Data da Movimentação: {self.date}\n Quantidade: {self.quantity}"
 
 class Supplier(models.Model):
     id = models.AutoField(primary_key=True);
@@ -73,8 +72,8 @@ class Supplier(models.Model):
     updatedAt = models.DateTimeField(auto_now=True);
     deletedAt = models.DateTimeField(null=True, blank=True);
 
-    def __str__(self):
-        return f"ID: {self.id} - {self.name}\n CNPJ: {self.cnpj}\n Email: {self.email}\n Telefone: {self.phone}\n Endereço: {self.address}"
+    # def __str__(self):
+    #     return f"ID: {self.id} - {self.name}\n CNPJ: {self.cnpj}\n Email: {self.email}\n Telefone: {self.phone}\n Endereço: {self.address}"
 
 
 
