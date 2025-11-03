@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link rel="stylesheet" href="../../static/estoque/styles/dashboard.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- <script src="../../static/estoque/js/dashboard.js" defer></script> -->
+     <script src="../../static/estoque/scripts/dashboard.js" defer></script>
+    
+    <title>Dashboard - Stock Management</title>
+</head>
+<body class="hidden"> <nav class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-box-open"></i>
+            <span>Stock Management</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active"><i class="fa-solid fa-chart-simple"></i><span>Dashboard</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-cart-shopping"></i><span>Estoque</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-handshake"></i><span>Fornecedores</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-users"></i><span>Usuários</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        
+        <header class="main-header">
+            <h1>Dashboard</h1>
+            <a href="#" id="logout-btn" title="Sair">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
+        </header>
+
+        <main class="content-area">
+
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="card-text">
+                        <p>PRODUTOS COM ESTOQUE BAIXO</p>
+                        <span class="stat-number" id="low-stock-count">...</span>
+                    </div>
+                    <div class="card-icon warning">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="card-text">
+                        <p>QUANTIDADE DE ITENS EM ESTOQUE</p>
+                        <span class="stat-number" id="total-items-count">...</span>
+                    </div>
+                    <div class="card-icon success">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="card-text">
+                        <p>LUCRO</p>
+                        <span class="stat-number" id="profit-count">...</span>
+                    </div>
+                    <div class="card-icon profit">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                </div>
+            </section>
+
+            <section class="chart-container main-chart">
+                <h3>Produtos em Estoque</h3>
+                <div class="chart-canvas-container">
+                    <canvas id="stockBarChart"></canvas>
+                </div>
+            </section>
+
+            <section class="bottom-charts-grid">
+                <div class="chart-container">
+                    <h3>Produtos por Categoria</h3>
+                    <div class="chart-canvas-container">
+                        <canvas id="categoryDonutChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>Entrada vs. Saída</h3>
+                     <div class="chart-canvas-container">
+                        <canvas id="movementDonutChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p class="tagline">tecnologia que simplifica, inovação que transforma.</p>
+            <p class="copyright">2025 | By Augusto Mariano e Erika Mara</p>
+        </footer>
+    </div>
+
+</body>
+</html>

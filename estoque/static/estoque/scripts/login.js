@@ -17,10 +17,11 @@ form.addEventListener('submit', async (e) => {
 
     const data = await response.json();
     console.log(data);
-    localStorage.setItem('token', data.access)
-    localStorage.setItem('refresh', data.refresh)
     
     if(response.status === 200) {
+        localStorage.setItem('token', data.access)
+        localStorage.setItem('refresh', data.refresh)
         console.log("Correto")
+        window.location.href = '/dashboard'
     }
 })

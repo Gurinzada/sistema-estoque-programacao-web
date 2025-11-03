@@ -1,0 +1,390 @@
+/* --- Variáveis de Cor (baseado na imagem) --- */
+:root {
+    --blue-primary: #00bfff; /* Azul ciano brilhante */
+    --blue-sidebar: #00aeef; /* Azul mais escuro para a sidebar */
+    --orange-active: #f39c12;
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --text-secondary: #555555;
+    --bg-light: #f4f7fa; /* Fundo principal (cinza muito claro) */
+    --bg-card: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    --icon-warning: #f39c12;
+    --icon-success: #2ecc71;
+    --icon-profit: #27ae60;
+}
+
+/* --- Reset Básico e Fontes --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    display: flex; /* Layout principal (Sidebar + Conteúdo) */
+    min-height: 100vh;
+}
+
+/* --- 1. Layout da Sidebar --- */
+.sidebar {
+    flex: 0 0 260px; /* Não cresce, não encolhe, base de 260px */
+    background-color: var(--blue-sidebar);
+    color: var(--text-light);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+}
+
+.sidebar-logo i {
+    font-size: 2rem;
+}
+
+.sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-menu a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-menu a i {
+    font-size: 1.25rem;
+    width: 25px; /* Alinha o texto */
+    text-align: center;
+}
+
+.sidebar-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-menu a.active {
+    background-color: var(--orange-active);
+    font-weight: 600;
+}
+
+/* --- 2. Layout do Conteúdo Principal --- */
+.main-content {
+    flex: 1; /* Ocupa todo o espaço restante */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Permite scroll apenas no conteúdo */
+}
+
+/* --- Cabeçalho --- */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.main-header h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+#logout-btn {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+#logout-btn:hover {
+    color: var(--orange-active);
+}
+
+/* --- Área de Conteúdo (Cards e Gráficos) --- */
+.content-area {
+    flex: 1;
+    padding: 1.5rem 2rem;
+}
+
+/* --- Grade de Estatísticas (Responsiva) --- */
+.stats-grid {
+    display: grid;
+    /* Cria colunas responsivas:
+       - Tenta encaixar colunas de no mínimo 280px
+       - Se não couber, quebra a linha (1fr)
+    */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-card .card-text p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.stat-card .stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.stat-card .card-icon {
+    font-size: 2.5rem;
+    padding: 1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Cores dos ícones */
+.card-icon.warning {
+    color: var(--icon-warning);
+    background-color: #fef5e7;
+}
+.card-icon.success {
+    color: var(--icon-success);
+    background-color: #eafaf1;
+}
+.card-icon.profit {
+    color: var(--icon-profit);
+    background-color: #eaf6ef;
+}
+
+/* --- Container Genérico de Gráfico --- */
+.chart-container {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-top: 1.5rem;
+}
+
+.chart-container h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Simulação Gráfico de Barras --- */
+.bar-chart-static {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 250px;
+    border-bottom: 2px solid var(--border-color);
+    padding: 0 1rem;
+}
+
+.bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.bar-group .bar {
+    width: 30px;
+    background-color: var(--blue-primary);
+    border-radius: 4px 4px 0 0;
+    transition: height 0.5s ease-out;
+}
+
+.bar-group label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+/* --- Grade de Gráficos Inferiores --- */
+.bottom-charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas */
+    gap: 1.5rem;
+}
+
+/* --- Simulação Gráfico Donut --- */
+.donut-chart-static {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.donut-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #e0e0e0; /* Cinza placeholder */
+}
+
+.legend {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.legend .color-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background-color: var(--border-color); /* Cor genérica */
+}
+/* Cores da legenda (apenas para simulação) */
+.legend .c1 {
+    background-color: #ff6384;
+}
+.legend .c2 {
+    background-color: #36a2eb;
+}
+.legend .c3 {
+    background-color: #ffce56;
+}
+.legend .c4 {
+    background-color: #4bc0c0;
+}
+
+/* --- Rodapé --- */
+.main-footer {
+    padding: 1.5rem 2rem;
+    text-align: center;
+    background-color: var(--blue-primary);
+    color: var(--text-light);
+    margin-top: 1.5rem;
+}
+
+.main-footer .tagline {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+.main-footer .copyright {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* --- Responsividade --- */
+
+/* Telas Médias (Tablets) */
+@media (max-width: 992px) {
+    .bottom-charts-grid {
+        grid-template-columns: 1fr; /* Gráficos inferiores empilhados */
+    }
+}
+
+/* Telas Pequenas (Celulares) */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column; /* Empilha sidebar e conteúdo */
+    }
+
+    .sidebar {
+        flex: 1;
+        width: 100%;
+        /* Opcional: fazer a sidebar horizontal */
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0.5rem;
+    }
+
+    .sidebar-logo {
+        display: none; /* Esconde o logo no celular */
+    }
+
+    .sidebar-menu {
+        flex-direction: row; /* Menu horizontal */
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .sidebar-menu a span {
+        display: none; /* Esconde o texto, mostra só ícones */
+    }
+
+    .sidebar-menu a {
+        padding: 0.75rem;
+    }
+
+    /* Ajustes no conteúdo principal */
+    .content-area {
+        padding: 1rem;
+    }
+    .main-header {
+        padding: 1rem;
+    }
+}
+
+body.hidden {
+    display: none;
+}
+
+.chart-canvas-container {
+    position: relative;
+    flex-grow: 1;
+    width: 100%;
+    min-height: 250px;
+}
+
+.main-chart .chart-canvas-container {
+    min-height: 300px;
+}
+
+.bottom-charts-grid .chart-canvas-container {
+    min-height: 350px;
+}
+
+.bar-chart-static,
+.donut-chart-static,
+.donut-placeholder {
+    display: none;
+}
+
+.stat-number {
+    font-size: 2.2rem;
+}
