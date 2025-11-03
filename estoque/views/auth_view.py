@@ -5,6 +5,7 @@ from estoque.services.user_service import authenticate_user, create_user
 from estoque.services.google_auth_service import authenticate_google_user
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.permissions import IsAuthenticated
 
 @csrf_exempt
 @api_view(['POST'])
@@ -28,6 +29,23 @@ def login_google_view(request):
         return Response({'error': "Token not provided"}, status=400)
     result, status = authenticate_google_user(token=token)
     return Response(result, status=status)
+
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def current_user_view(request):
+    user = request.user
+    print(user)
+    return Response({
+        'id': user.id,
+        'name': user.name,
+        'jobTitle': user.jobTitle,
+        'email': user.email,
+        'role': user.role,
+        'createdAt': user.createdAt,
+        'updatedAt': user.updatedAt,
+    })
+
 
 def login_page_view(request):
     return render(request, 'estoque/login.html')

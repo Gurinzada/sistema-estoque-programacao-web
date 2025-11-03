@@ -16,11 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from estoque.views import auth_view
+from estoque.views import auth_view, product_view
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('estoque.urls')),
-    path('', auth_view.login_page_view)
+    path('', auth_view.login_page_view),
+    path('dashboard', product_view.dashboard_view),
+    path('products', product_view.products_view)
 ]
