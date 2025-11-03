@@ -1,4 +1,5 @@
 from estoque.models import Product, Category
+from django.db.models import Count
 
 def list_products():
     products = Product.objects.all()
@@ -30,3 +31,12 @@ def delete_product(id):
     product = Product.objects.get(id=id)
     product.delete()
     return "Produto deletado com sucesso"
+
+def count_products_by_categories():
+    categories = (
+        Category.objects
+        .annotate(total_products=Count('products'))
+        .values('name', 'total_products')
+    )
+    
+    return {cat['name']: cat['total_products'] for cat in categories}
