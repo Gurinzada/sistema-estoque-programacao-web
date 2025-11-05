@@ -4,14 +4,18 @@ from rest_framework.response import Response
 from estoque.services import supplier_service
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.shortcuts import render
 
-def serialize_supplier(s):
+def serialize_supplier(supplier):
     return {
-        'id': s.id,
-        'name': s.name,
-        'cnpj': s.cnpj,
-        'email': s.email,
-        'phone': s.phone
+        'id': supplier.id,
+        'name': supplier.name,
+        'cnpj': supplier.cnpj,
+        'email': supplier.email,
+        'phone': supplier.phone,
+        'address': supplier.address,
+        'zipCode': supplier.zipCode,
+        'products': [p.id for p in supplier.products.all()]
     }
 
 @csrf_exempt
@@ -30,3 +34,32 @@ def suppliers_view(request):
             return Response(serialize_supplier(supplier), status=201)
         except Exception as e:
             return Response({'error': str(e)}, status=400)
+
+@csrf_exempt
+@api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def supplier_detail_view(request, id):
+    supplier = supplier_service.get_supplier_by_id(id)
+    if not supplier:
+        return Response({'error': 'Fornecedor não encontrado'}, status=404)
+
+    if request.method == 'GET':
+        return Response(serialize_supplier(supplier))
+
+    if request.method == 'PATCH':
+        try:
+            data = json.loads(request.body)
+            updated_supplier = supplier_service.update_supplier(id, data)
+            return Response(serialize_supplier(updated_supplier))
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
+
+    if request.method == 'DELETE':
+        try:
+            supplier_service.delete_supplier(id)
+            return Response(status=204)
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
+        
+def supplier_template_view(request):
+    return render(request, 'estoque/suppliers.html')

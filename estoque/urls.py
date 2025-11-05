@@ -19,6 +19,7 @@ urlpatterns = [
     path('category/<int:id>', product_view.category_detail_view),
 
     path('suppliers', supplier_view.suppliers_view),
+    path('suppliers/<int:id>', supplier_view.supplier_detail_view),
 
     path('stock/movements', stock_view.movement_list_create_view),
     path('stock/movements/<int:movement_id>', stock_view.movement_detail_view),
