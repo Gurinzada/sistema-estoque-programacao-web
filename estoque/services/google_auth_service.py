@@ -1,41 +1,53 @@
-from google.oauth2 import id_token
-from google.auth.transport import requests
+from google.oauth2 import id_token, credentials
+from google.auth.transport import requests as google_requests
+from google_auth_oauthlib.flow import Flow
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
+import os
 
 User = get_user_model()
 
-def verify_google_token(token):
-    try:
-        payload = id_token.verify_oauth2_token(token, requests.Request(), settings.GOOGLE_CLIENT_ID)
-        return payload
-    except Exception as e:
-        print(e)
-        return None
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
+def get_google_flow():
+    return Flow.from_client_secrets_file(
+        settings.GOOGLE_CLIENT_SECRETS_FILE,
+        scopes=[
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'openid'
+        ],
+        redirect_uri=settings.GOOGLE_REDIRECT_URI
+    )
+
+def get_google_tokens_and_user_info(code):
+    flow = get_google_flow()
+    flow.fetch_token(code=code)
     
-def authenticate_google_user(token):
-    payload = verify_google_token(token)
-    if not payload:
-        return {'error': 'Token Google inválido'}, 400
-    email = payload.get('email')
-    if not email:
-        return {"error": "No email required"}, 400
+    creds = flow.credentials
+    
+    request = google_requests.Request()
+    id_info = id_token.verify_oauth2_token(
+        id_token=creds.id_token, request=request, audience=settings.GOOGLE_CLIENT_ID
+    )
+    
+    return id_info
+
+def handle_google_redirect_login(code):
     try:
+        user_info = get_google_tokens_and_user_info(code)
+        email = user_info.get('email')
+        if not email:
+            raise ValueError("Email não retornado pelo Google.")
+
         user = User.objects.get(email=email)
         refresh = RefreshToken.for_user(user)
-        return ({
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-            'user': {
-                'id': user.id,
-                'name': user.name,
-                'jobTitle': user.jobTitle,
-                'email': user.email,
-                'role': user.role,
-                'createdAt': user.createdAt,
-                'updatedAt': user.updatedAt,
-            }
-        }, 200)
-    except User.DoesNotExist:
-        return ({'error': "Usuário não encontrado"}, 403)
+        return {
+            'access_token': str(refresh.access_token),
+            'refresh_token': str(refresh)
+        }
+
+    except Exception as e:
+        print(f"Erro durante a autenticação Google: {e}")
+        return None

@@ -55,6 +55,7 @@
           </header>
 
           <main>
+            <div id="auth-error" class="auth-error-message"></div>
             <form action="#" class="" id="loginForm">
               <div class="input-group">
                 <label for="email">Usuário:</label>
@@ -89,10 +90,10 @@
             <div class="separator">ou</div>
             
             <div>
-              <button class="google-btn">
+              <a href="{% url 'google_login_start' %}" class="google-btn">
                 <i class="fa-brands fa-google"></i>
                 Fazer login com o Google
-              </button>
+              </a>
             </div>
             
           </main>
