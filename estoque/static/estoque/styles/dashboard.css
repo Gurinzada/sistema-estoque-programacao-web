@@ -1,12 +1,11 @@
-/* --- Variáveis de Cor (baseado na imagem) --- */
 :root {
-    --blue-primary: #00bfff; /* Azul ciano brilhante */
-    --blue-sidebar: #00aeef; /* Azul mais escuro para a sidebar */
+    --blue-primary: #00bfff; 
+    --blue-sidebar: #00aeef; 
     --orange-active: #f39c12;
     --text-light: #ffffff;
     --text-dark: #333333;
     --text-secondary: #555555;
-    --bg-light: #f4f7fa; /* Fundo principal (cinza muito claro) */
+    --bg-light: #f4f7fa; 
     --bg-card: #ffffff;
     --border-color: #e0e0e0;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -16,7 +15,6 @@
     --icon-profit: #27ae60;
 }
 
-/* --- Reset Básico e Fontes --- */
 * {
     margin: 0;
     padding: 0;
@@ -27,13 +25,13 @@ body {
     font-family: "Poppins", sans-serif;
     background-color: var(--bg-light);
     color: var(--text-dark);
-    display: flex; /* Layout principal (Sidebar + Conteúdo) */
+    display: flex; 
     min-height: 100vh;
 }
 
-/* --- 1. Layout da Sidebar --- */
+
 .sidebar {
-    flex: 0 0 260px; /* Não cresce, não encolhe, base de 260px */
+    flex: 0 0 260px; 
     background-color: var(--blue-sidebar);
     color: var(--text-light);
     padding: 1.5rem;
@@ -90,15 +88,13 @@ body {
     font-weight: 600;
 }
 
-/* --- 2. Layout do Conteúdo Principal --- */
 .main-content {
-    flex: 1; /* Ocupa todo o espaço restante */
+    flex: 1; 
     display: flex;
     flex-direction: column;
-    overflow-y: auto; /* Permite scroll apenas no conteúdo */
+    overflow-y: auto; 
 }
 
-/* --- Cabeçalho --- */
 .main-header {
     display: flex;
     justify-content: space-between;
@@ -123,19 +119,13 @@ body {
     color: var(--orange-active);
 }
 
-/* --- Área de Conteúdo (Cards e Gráficos) --- */
 .content-area {
     flex: 1;
     padding: 1.5rem 2rem;
 }
 
-/* --- Grade de Estatísticas (Responsiva) --- */
 .stats-grid {
     display: grid;
-    /* Cria colunas responsivas:
-       - Tenta encaixar colunas de no mínimo 280px
-       - Se não couber, quebra a linha (1fr)
-    */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
 }
@@ -172,7 +162,6 @@ body {
     justify-content: center;
 }
 
-/* Cores dos ícones */
 .card-icon.warning {
     color: var(--icon-warning);
     background-color: #fef5e7;
@@ -186,7 +175,6 @@ body {
     background-color: #eaf6ef;
 }
 
-/* --- Container Genérico de Gráfico --- */
 .chart-container {
     background: var(--bg-card);
     padding: 1.5rem;
@@ -201,7 +189,6 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* --- Simulação Gráfico de Barras --- */
 .bar-chart-static {
     display: flex;
     justify-content: space-around;
@@ -233,14 +220,12 @@ body {
     text-align: center;
 }
 
-/* --- Grade de Gráficos Inferiores --- */
 .bottom-charts-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Duas colunas */
+    grid-template-columns: 1fr 1fr; 
     gap: 1.5rem;
 }
 
-/* --- Simulação Gráfico Donut --- */
 .donut-chart-static {
     display: flex;
     align-items: center;
@@ -252,7 +237,7 @@ body {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background-color: #e0e0e0; /* Cinza placeholder */
+    background-color: #e0e0e0; 
 }
 
 .legend {
@@ -274,9 +259,9 @@ body {
     width: 16px;
     height: 16px;
     border-radius: 4px;
-    background-color: var(--border-color); /* Cor genérica */
+    background-color: var(--border-color); 
 }
-/* Cores da legenda (apenas para simulação) */
+
 .legend .c1 {
     background-color: #ff6384;
 }
@@ -290,7 +275,6 @@ body {
     background-color: #4bc0c0;
 }
 
-/* --- Rodapé --- */
 .main-footer {
     padding: 1.5rem 2rem;
     text-align: center;
@@ -308,25 +292,20 @@ body {
     opacity: 0.8;
 }
 
-/* --- Responsividade --- */
-
-/* Telas Médias (Tablets) */
 @media (max-width: 992px) {
     .bottom-charts-grid {
-        grid-template-columns: 1fr; /* Gráficos inferiores empilhados */
+        grid-template-columns: 1fr;
     }
 }
 
-/* Telas Pequenas (Celulares) */
 @media (max-width: 768px) {
     body {
-        flex-direction: column; /* Empilha sidebar e conteúdo */
+        flex-direction: column; 
     }
 
     .sidebar {
         flex: 1;
         width: 100%;
-        /* Opcional: fazer a sidebar horizontal */
         flex-direction: row;
         align-items: center;
         justify-content: space-around;
@@ -334,17 +313,17 @@ body {
     }
 
     .sidebar-logo {
-        display: none; /* Esconde o logo no celular */
+        display: none; 
     }
 
     .sidebar-menu {
-        flex-direction: row; /* Menu horizontal */
+        flex-direction: row; 
         width: 100%;
         justify-content: space-around;
     }
 
     .sidebar-menu a span {
-        display: none; /* Esconde o texto, mostra só ícones */
+        display: none; 
     }
 
     .sidebar-menu a {
