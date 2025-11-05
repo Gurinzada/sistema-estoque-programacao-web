@@ -1,0 +1,267 @@
+/* --- Variáveis de Cor (Ajustadas para a tela de Usuários) --- */
+:root {
+    --blue-primary: #00BFFF;
+    --blue-sidebar: #00AEEF;
+    --orange-active: #F39C12;
+    --orange-button: #F5AB35; /* Botão de busca */
+    --orange-button-hover: #F39C12;
+    --text-light: #FFFFFF;
+    --text-dark: #333333;
+    --text-secondary: #555555;
+    --bg-light: #F4F7FA; 
+    --bg-card: #FFFFFF;
+    --border-color: #E0E0E0;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Reset e Configurações Globais --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    display: flex;
+    min-height: 100vh;
+}
+body.hidden { display: none; }
+
+/* --- 1. Layout da Sidebar --- */
+/* (Idêntico ao stock.css) */
+.sidebar {
+    flex: 0 0 260px;
+    background-color: var(--blue-sidebar);
+    color: var(--text-light);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+.sidebar-logo {
+    display: flex; align-items: center; gap: 0.75rem;
+    font-size: 1.5rem; font-weight: 700; margin-bottom: 2.5rem;
+}
+.sidebar-logo i { font-size: 2rem; }
+.sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.sidebar-menu a {
+    color: var(--text-light); text-decoration: none;
+    font-size: 1.1rem; font-weight: 500;
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.9rem 1rem; border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+.sidebar-menu a i { font-size: 1.25rem; width: 25px; text-align: center; }
+.sidebar-menu a:hover { background-color: rgba(255, 255, 255, 0.1); }
+.sidebar-menu a.active {
+    background-color: var(--orange-active);
+    font-weight: 600;
+}
+
+/* --- 2. Container da Página --- */
+.page-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+}
+
+/* --- Cabeçalho Superior (Estilo Usuários) --- */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 2rem;
+    background: var(--bg-card); /* Fundo Branco */
+    border-bottom: 2px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.top-header h1 {
+    color: var(--blue-sidebar); /* Texto Azul */
+    font-weight: 700;
+    font-size: 1.75rem;
+    border-bottom: 3px solid var(--blue-primary);
+    padding-bottom: 0.25rem;
+}
+
+#logout-btn {
+    font-size: 1.5rem;
+    color: var(--text-secondary); /* Ícone Cinza */
+    transition: transform 0.2s ease;
+}
+#logout-btn:hover {
+    transform: scale(1.1);
+    color: var(--blue-sidebar);
+}
+
+/* --- Conteúdo Principal --- */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem 2rem;
+    background-color: var(--bg-light);
+}
+
+.content-section {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Card de Estatística (Estilo Usuários) --- */
+.stat-card-users {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    border-left: 5px solid var(--orange-active);
+    box-shadow: var(--shadow);
+    flex-grow: 1;
+    max-width: 400px;
+}
+.stat-card-users p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin: 0;
+}
+.stat-card-users span {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+.stat-card-users .icon-wrapper {
+    font-size: 2rem;
+    color: var(--orange-active);
+    background-color: #fffaf0;
+    padding: 0.75rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Botão "Novo Usuário" (Azul) --- */
+.btn-new {
+    background-color: var(--blue-primary);
+    color: var(--text-light);
+    font-weight: 600;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 25px; /* Arredondado */
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 191, 255, 0.3);
+}
+.btn-new:hover {
+    background-color: var(--blue-sidebar);
+    color: var(--text-light);
+    box-shadow: 0 6px 15px rgba(0, 174, 239, 0.4);
+}
+.btn-new i {
+    margin-right: 0.5rem;
+}
+
+/* --- Barra de Busca (Laranja) --- */
+.search-bar .input-group-text { background-color: #f8f9fa; border-right: none; }
+.search-bar .form-control { border-left: none; }
+.search-bar .form-control:focus { box-shadow: none; border-color: var(--orange-button); }
+.btn-search {
+    background-color: var(--orange-button);
+    color: var(--text-light);
+    border: 1px solid var(--orange-button);
+    font-weight: 600;
+}
+.btn-search:hover {
+    background-color: var(--orange-button-hover);
+    color: var(--text-light);
+    border-color: var(--orange-button-hover);
+}
+
+/* --- Estilos da Tabela --- */
+.table-responsive {
+    max-height: 500px;
+    overflow-y: auto;
+}
+.table th { color: var(--text-secondary); font-weight: 600; }
+.table .action-icons { display: flex; gap: 0.75rem; justify-content: flex-end; }
+.action-icons .btn-action {
+    background: none; border: none;
+    font-size: 1.1rem; cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.action-icons .btn-action:hover { transform: scale(1.2); }
+.action-icons .btn-action:disabled { color: #ccc; cursor: not-allowed; }
+.action-icons .btn-action:disabled:hover { transform: none; }
+
+.btn-action.edit { color: var(--blue-sidebar); }
+.btn-action.delete { color: #E74C3C; }
+
+/* Ícones de Admin (Check/X) */
+.admin-icon {
+    font-size: 1.25rem;
+}
+.admin-icon.yes {
+    color: #2ECC71; /* Verde */
+}
+.admin-icon.no {
+    color: #E74C3C; /* Vermelho */
+}
+
+/* --- Rodapé --- */
+.main-footer {
+    padding: 1rem 2rem;
+    text-align: center;
+    background-color: var(--blue-primary);
+    color: var(--text-light);
+    flex-shrink: 0;
+}
+.main-footer .tagline { margin: 0; font-size: 1rem; font-weight: 500; }
+.main-footer .copyright { margin: 0; font-size: 0.8rem; opacity: 0.8; }
+
+/* --- Estilos do SweetAlert (Modais) --- */
+/* (Idêntico ao stock.css) */
+.swal2-popup { font-family: 'Poppins', sans-serif; }
+.swal2-title { color: var(--blue-sidebar); font-weight: 700; }
+.swal2-html-container { text-align: left; }
+.swal-form-group { margin-bottom: 1rem; }
+.swal-form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--text-secondary);
+}
+.swal2-input, .swal2-textarea, .swal2-select {
+    width: 100% !important;
+    font-family: 'Poppins', sans-serif !important;
+    border: 1px solid var(--border-color) !important;
+}
+.swal2-input:focus, .swal2-textarea:focus, .swal2-select:focus {
+    border-color: var(--orange-active) !important;
+    box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.25) !important;
+}
+.swal2-confirm { background-color: var(--orange-button) !important; }
+.swal2-confirm:hover { background-color: var(--orange-button-hover) !important; }
+
+/* Responsividade dos Modais */
+@media (max-width: 576px) {
+    .swal2-popup { width: 90% !important; padding: 1.25rem 0.75rem !important; }
+    .swal2-title { font-size: 1.5rem !important; padding: 0 0.5rem; }
+    .swal-form-group label { font-size: 0.9rem; }
+    .swal2-html-container { padding: 0.5rem !important; }
+}

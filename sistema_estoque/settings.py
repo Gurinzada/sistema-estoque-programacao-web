@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -155,3 +155,14 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'estoque.User'
+
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=24), 
+
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),  
+
+    "ROTATE_REFRESH_TOKENS": True,             
+    "BLACKLIST_AFTER_ROTATION": True,              
+    "UPDATE_LAST_LOGIN": True,                     
+}

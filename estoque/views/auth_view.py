@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from estoque.services.user_service import authenticate_user, create_user
+from estoque.services.user_service import authenticate_user
 from estoque.services.google_auth_service import authenticate_google_user
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt

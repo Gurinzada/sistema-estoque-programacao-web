@@ -1,18 +1,63 @@
 from django.contrib.auth.hashers import make_password, check_password
 from estoque.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from django.contrib.auth.hashers import make_password
 
 def create_user(name, jobTitle, email, password, role=User.Role.COLLABORATOR):
-    hashed_password = make_password(password)
-    user = User.objects.create(
-        name=name,
-        jobTitle=jobTitle,
-        email=email,
-        password=hashed_password,
-        role=role
-    )
+    if User.objects.filter(email=email).exists():
+        raise ValueError("Já existe um usuário com este e-mail.")
+    try:
+        user = User.objects.create_user(email=email, name=name, password=password, jobTitle=jobTitle, role=role)
+        return user
+    except Exception:
+        hashed = make_password(password)
+        user = User.objects.create(
+            name=name,
+            jobTitle=jobTitle,
+            email=email,
+            password=hashed,
+            role=role
+        )
+        return user
+
+def get_user_by_id(user_id):
+    try:
+        return User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return None
+
+def update_user(user_id, data):
+    user = get_user_by_id(user_id)
+    if not user:
+        return None
+    allowed = {'name', 'jobTitle', 'email', 'role', 'password', 'is_active'}
+    changed = False
+    for key, value in data.items():
+        if key not in allowed:
+            continue
+        if key == 'password':
+            user.set_password(value)
+            changed = True
+        else:
+            if key == 'role' and value not in (User.Role.ADMIN, User.Role.COLLABORATOR):
+                continue
+            setattr(user, key, value)
+            changed = True
+    if changed:
+        user.save()
     return user
+
+def delete_user(user_id):
+    user = get_user_by_id(user_id)
+    if not user:
+        return False
+    user.delete()
+    return True
+
+def find_all_users():
+    return User.objects.all()
+
+
 
 def authenticate_user(email, password):
     try:

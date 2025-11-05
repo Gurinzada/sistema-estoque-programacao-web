@@ -9,6 +9,31 @@ def list_categories():
     categories = Category.objects.all()
     return categories
 
+def create_category(data):
+    return Category.objects.create(
+        name=data.get('name'),
+        description=data.get('description')
+    )
+
+def update_category(id, data):
+    category = Category.objects.get(id=id)
+    for key, value in data.items():
+        setattr(category, key, value)
+    category.save()
+    return category
+
+def delete_category(id):
+    category = Category.objects.get(id=id)
+    category.delete()
+    return "Categoria deletada com sucesso"
+
+def get_product_by_id(id):
+    return Product.objects.get(id=id)
+
+def get_category_by_id(id):
+    return Category.objects.get(id=id)
+
+
 def create_product(data):
     catgory = Category.objects.get(id=data['categoryId'])
     return Product.objects.create(

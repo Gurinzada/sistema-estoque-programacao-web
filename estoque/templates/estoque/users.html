@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="../../static/estoque/styles/users.css" />
+
+    <script src="../../static/estoque/scripts/users.js" defer></script>
+    
+    <title>Usuários - Stock Management</title>
+</head>
+<body class="hidden"> <nav class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-box-open"></i>
+            <span>Stock Management</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="/dashboard"> <i class="fa-solid fa-chart-simple"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/stock"> <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Estoque</span>
+                </a>
+            </li>
+            <li><a href="#"><i class="fa-solid fa-handshake"></i><span>Fornecedores</span></a></li>
+            <li>
+                <a href="#" class="active"> <i class="fa-solid fa-users"></i>
+                    <span>Usuários</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="page-container">
+        
+        <header class="top-header">
+            <h1>Gestão de Usuários</h1>
+            <a href="#" id="logout-btn" title="Sair">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
+        </header>
+
+        <main class="main-content">
+
+            <section id="usuarios" class="content-section">
+                
+                <div class="section-header">
+                    <div class="stat-card-users">
+                        <div class="text-content">
+                            <p>USUÁRIOS CADASTRADOS</p>
+                            <span id="user-count">0</span>
+                        </div>
+                        <div class="icon-wrapper">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                    </div>
+                    <button class="btn btn-new" id="btn-new-user">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Novo Usuário</span>
+                    </button>
+                </div>
+                
+                <div class="input-group mb-3 search-bar">
+                    <span class="input-group-text"><i class="fa-solid fa-search"></i></span>
+                    <input type="text" class="form-control" id="search-users" placeholder="Buscar Usuário...">
+                    <button class="btn btn-search" type="button">Procurar</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Usuário</th>
+                                <th>E-mail</th>
+                                <th>Nome</th>
+                                <th>Administrador</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p class="tagline">tecnologia que simplifica, inovação que transforma.</p>
+            <p class="copyright">2025 | By Augusto Mariano e Erika Mara</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+</body>
+</html>

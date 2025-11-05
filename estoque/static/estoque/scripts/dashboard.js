@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Falha na autenticação:', error.message);
-            // window.location.href = '/'; 
+            window.location.href = '/'; 
         }
     }
 
@@ -59,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Não foi possível carregar os dados do dashboard.');
         }
 
-        // Adiciona listener de logout
         if (elements.logoutButton) {
             elements.logoutButton.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -71,10 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Função utilitária para buscar dados da API
-     * @param {string} endpoint - O caminho da API (ex: '/products')
-     */
     async function fetchData(endpoint, method = "GET") {
         const token = localStorage.getItem("token")
         const response = await fetch(endpoint, {
@@ -90,34 +85,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return response.json();
     }
 
-    /**
-     * 3. ATUALIZAÇÃO DOS CARDS DE ESTATÍSTICA
-     */
     function updateStatCards(products, profitData) {
         if (!products || !profitData) return;
 
-        // a) Produtos com Estoque Baixo
         const lowStockProducts = products.filter(p => p.quatityStock < LOW_STOCK_THRESHOLD);
         elements.lowStockCount.textContent = lowStockProducts.length;
 
-        // b) Quantidade Total de Itens
         const totalItems = products.reduce((sum, p) => sum + p.quatityStock, 0);
         elements.totalItemsCount.textContent = totalItems;
 
-        // c) Lucro (formatado como moeda)
         const profit = profitData.profit || 0;
         elements.profitCount.textContent = `R$ ${profit.toFixed(2)}`;
     }
 
-    /**
-     * 4. CRIAÇÃO DOS GRÁFICOS
-     */
-
-    // a) Gráfico de Barras: Produtos em Estoque
     function createStockBarChart(products) {
         if (!products || !elements.stockBarChartCtx) return;
 
-        // Ordena os produtos por estoque (maior para menor) e pega o top 6
         const sortedProducts = [...products]
             .sort((a, b) => b.quatityStock - a.quatityStock)
             .slice(0, 6);
@@ -133,11 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     borderRadius: 4,
                 }]
             },
-            options: chartOptions(false) // 'false' para não mostrar legenda
+            options: chartOptions(false)
         });
     }
 
-    // b) Gráfico Donut: Produtos por Categoria
     function createCategoryDonutChart(categoryData) {
         if (!categoryData || !elements.categoryDonutChartCtx) return;
 
@@ -150,11 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
                 }]
             },
-            options: chartOptions(true) // 'true' para mostrar legenda
+            options: chartOptions(true)
         });
     }
 
-    // c) Gráfico Donut: Entrada vs. Saída
     function createMovementDonutChart(movementData) {
         if (!movementData || !elements.movementDonutChartCtx) return;
 
@@ -167,18 +148,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     backgroundColor: ['#2ECC71', '#E74C3C'],
                 }]
             },
-            options: chartOptions(true) // 'true' para mostrar legenda
+            options: chartOptions(true) 
         });
     }
 
-    /**
-     * Função utilitária para opções padrão do Chart.js
-     * @param {boolean} showLegend - Se deve ou não mostrar a legenda
-     */
     function chartOptions(showLegend = true) {
         return {
             responsive: true,
-            maintainAspectRatio: false, // Essencial para o canvas se ajustar ao container
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     display: showLegend,
@@ -188,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             },
-            scales: { // Para o gráfico de barras
+            scales: {
                 y: {
                     beginAtZero: true,
                     ticks: { font: { family: "'Poppins', sans-serif" } }
