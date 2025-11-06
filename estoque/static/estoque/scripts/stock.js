@@ -195,6 +195,42 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.productsTableBody.addEventListener('click', e => handleTableActions(e, 'product'));
         elements.movementsTableBody.addEventListener('click', e => handleTableActions(e, 'movement'));
 
+        // Busca de Categorias
+        const searchCategoriesInput = document.getElementById('search-categories');
+        const searchCategoriesBtn = searchCategoriesInput.nextElementSibling;
+        
+        searchCategoriesBtn.addEventListener('click', () => filterCategories());
+        searchCategoriesInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') filterCategories();
+        });
+        searchCategoriesInput.addEventListener('input', () => {
+            if (searchCategoriesInput.value === '') filterCategories();
+        });
+
+        // Busca de Produtos
+        const searchProductsInput = document.getElementById('search-products');
+        const searchProductsBtn = searchProductsInput.nextElementSibling;
+        
+        searchProductsBtn.addEventListener('click', () => filterProducts());
+        searchProductsInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') filterProducts();
+        });
+        searchProductsInput.addEventListener('input', () => {
+            if (searchProductsInput.value === '') filterProducts();
+        });
+
+        // Busca de Movimentações
+        const searchMovementsInput = document.getElementById('search-movements');
+        const searchMovementsBtn = searchMovementsInput.nextElementSibling;
+        
+        searchMovementsBtn.addEventListener('click', () => filterMovements());
+        searchMovementsInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') filterMovements();
+        });
+        searchMovementsInput.addEventListener('input', () => {
+            if (searchMovementsInput.value === '') filterMovements();
+        });
+
         document.getElementById('logout-btn').addEventListener('click', e => {
             e.preventDefault();
             localStorage.removeItem('token');
@@ -436,6 +472,106 @@ document.addEventListener('DOMContentLoaded', () => {
                 Swal.fire('Erro!', e.message, 'error');
             }
         }
+    }
+
+    function filterCategories() {
+        const searchTerm = document.getElementById('search-categories').value.toLowerCase().trim();
+        const filteredCategories = state.categories.filter(cat => 
+            cat.name.toLowerCase().includes(searchTerm) ||
+            (cat.description && cat.description.toLowerCase().includes(searchTerm)) ||
+            cat.id.toString().includes(searchTerm)
+        );
+
+        elements.categoriesTableBody.innerHTML = '';
+        if (filteredCategories.length === 0) {
+            renderEmptyRow(elements.categoriesTableBody, 4, "Nenhuma categoria encontrada.");
+            return;
+        }
+
+        filteredCategories.forEach(cat => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${cat.id}</td>
+                <td>${cat.name}</td>
+                <td>${cat.description || 'N/A'}</td>
+                <td class="text-end action-icons">
+                    <button class="btn-action edit" data-id="${cat.id}" title="Editar"><i class="fa-solid fa-pencil"></i></button>
+                    <button class="btn-action delete" data-id="${cat.id}" title="Excluir"><i class="fa-solid fa-trash-can"></i></button>
+                </td>
+            `;
+            elements.categoriesTableBody.appendChild(tr);
+        });
+    }
+
+    function filterProducts() {
+        const searchTerm = document.getElementById('search-products').value.toLowerCase().trim();
+        const filteredProducts = state.products.filter(p => 
+            p.name.toLowerCase().includes(searchTerm) ||
+            (p.description && p.description.toLowerCase().includes(searchTerm)) ||
+            (p.categoryName && p.categoryName.toLowerCase().includes(searchTerm))
+        );
+
+        elements.productsTableBody.innerHTML = '';
+        if (filteredProducts.length === 0) {
+            renderEmptyRow(elements.productsTableBody, 7, "Nenhum produto encontrado.");
+            return;
+        }
+
+        filteredProducts.forEach(p => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${p.name}</td>
+                <td>${p.description || 'N/A'}</td>
+                <td>${p.quatityStock}</td>
+                <td>R$ ${p.costPrice.toFixed(2)}</td>
+                <td>R$ ${p.salePrice.toFixed(2)}</td>
+                <td>${p.categoryName}</td>
+                <td class="text-end action-icons">
+                    <button class="btn-action edit" data-id="${p.id}" title="Editar"><i class="fa-solid fa-pencil"></i></button>
+                    <button class="btn-action delete" data-id="${p.id}" title="Excluir"><i class="fa-solid fa-trash-can"></i></button>
+                </td>
+            `;
+            elements.productsTableBody.appendChild(tr);
+        });
+    }
+
+    function filterMovements() {
+        const searchTerm = document.getElementById('search-movements').value.toLowerCase().trim();
+        
+        fetchData('/stock/movements').then(movements => {
+            const filteredMovements = movements.filter(mov => 
+                mov.type.toLowerCase().includes(searchTerm) ||
+                mov.product.name.toLowerCase().includes(searchTerm) ||
+                mov.user.name.toLowerCase().includes(searchTerm) ||
+                mov.id.toString().includes(searchTerm)
+            );
+
+            elements.movementsTableBody.innerHTML = '';
+            if (filteredMovements.length === 0) {
+                renderEmptyRow(elements.movementsTableBody, 7, "Nenhuma movimentação encontrada.");
+                return;
+            }
+
+            filteredMovements.forEach(mov => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${mov.id}</td>
+                    <td><span class="badge bg-${mov.type === 'ENTRADA' ? 'success' : 'danger'}">${mov.type}</span></td>
+                    <td>${mov.quantity}</td>
+                    <td>${mov.product.name}</td>
+                    <td>${mov.user.name}</td>
+                    <td>${formatDate(mov.date)}</td>
+                    <td class="text-end action-icons">
+                        <button class="btn-action edit" data-id="${mov.id}" title="Editar"><i class="fa-solid fa-pencil"></i></button>
+                        <button class="btn-action delete" data-id="${mov.id}" title="Excluir"><i class="fa-solid fa-trash-can"></i></button>
+                    </td>
+                `;
+                elements.movementsTableBody.appendChild(tr);
+            });
+        }).catch(error => {
+            console.error('Erro ao filtrar movimentações:', error);
+            renderEmptyRow(elements.movementsTableBody, 7, "Erro ao filtrar movimentações.");
+        });
     }
 
     checkAuthentication();

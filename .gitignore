@@ -1,4 +1,42 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+/staticfiles/
+/media/
+
+# Secrets and Environment Variables
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Google OAuth Credentials
+client_secret*.json
+*client_secret*.json
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

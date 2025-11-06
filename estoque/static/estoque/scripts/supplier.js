@@ -122,16 +122,24 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btn.classList.contains('edit')) showSupplierModal(id);
             if (btn.classList.contains('delete')) showDeleteModal(id);
         });
+
+        // Busca de Fornecedores
+        const searchSuppliersInput = document.getElementById('search-suppliers');
+        const searchSuppliersBtn = searchSuppliersInput.nextElementSibling;
+        
+        searchSuppliersBtn.addEventListener('click', () => filterSuppliers());
+        searchSuppliersInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') filterSuppliers();
+        });
+        searchSuppliersInput.addEventListener('input', () => {
+            if (searchSuppliersInput.value === '') filterSuppliers();
+        });
         
         document.getElementById('logout-btn').addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.removeItem('token');
             localStorage.removeItem('refresh');
             window.location.href = '/';
-        });
-
-        document.querySelector('.btn-search').addEventListener('click', (e) => {
-             console.log('Buscando fornecedor...');
         });
     }
 
@@ -262,6 +270,46 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             Swal.fire('Erro!', `Não foi possível salvar o fornecedor. ${error.message}`, 'error');
         }
+    }
+
+    function filterSuppliers() {
+        const searchTerm = document.getElementById('search-suppliers').value.toLowerCase().trim();
+        const filteredSuppliers = state.suppliers.filter(supplier => 
+            (supplier.name && supplier.name.toLowerCase().includes(searchTerm)) ||
+            (supplier.cnpj && supplier.cnpj.toLowerCase().includes(searchTerm)) ||
+            (supplier.email && supplier.email.toLowerCase().includes(searchTerm)) ||
+            (supplier.phone && supplier.phone.toLowerCase().includes(searchTerm)) ||
+            (supplier.city && supplier.city.toLowerCase().includes(searchTerm)) ||
+            (supplier.state && supplier.state.toLowerCase().includes(searchTerm))
+        );
+
+        elements.suppliersTableBody.innerHTML = '';
+        if (filteredSuppliers.length === 0) {
+            renderEmptyRow(elements.suppliersTableBody, 6, "Nenhum fornecedor encontrado.");
+            return;
+        }
+
+        filteredSuppliers.forEach(supplier => {
+            const tr = document.createElement('tr');
+            const addressText = `${supplier.address || ''} ${supplier.city || ''}, ${supplier.state || ''}`.trim();
+            
+            tr.innerHTML = `
+                <td>${supplier.name || ''}</td>
+                <td>${supplier.cnpj || ''}</td>
+                <td>${supplier.email || ''}</td>
+                <td>${supplier.phone || ''}</td>
+                <td>${addressText}</td>
+                <td class="text-end action-icons">
+                    <button class="btn-action edit" data-id="${supplier.id}" title="Editar">
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
+                    <button class="btn-action delete" data-id="${supplier.id}" title="Excluir">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </td>
+            `;
+            elements.suppliersTableBody.appendChild(tr);
+        });
     }
 
     checkAuthentication();

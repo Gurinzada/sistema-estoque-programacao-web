@@ -127,6 +127,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btn.classList.contains('delete')) showDeleteModal(id);
         });
 
+        // Busca de Usuários
+        const searchUsersInput = document.getElementById('search-users');
+        const searchUsersBtn = searchUsersInput.nextElementSibling;
+        
+        searchUsersBtn.addEventListener('click', () => filterUsers());
+        searchUsersInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') filterUsers();
+        });
+        searchUsersInput.addEventListener('input', () => {
+            if (searchUsersInput.value === '') filterUsers();
+        });
+
         document.getElementById('logout-btn').addEventListener('click', e => {
             e.preventDefault();
             localStorage.removeItem('token');
@@ -241,6 +253,49 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             Swal.fire('Erro!', error.message, 'error');
         }
+    }
+
+    function filterUsers() {
+        const searchTerm = document.getElementById('search-users').value.toLowerCase().trim();
+        const filteredUsers = state.users.filter(user => {
+            const username = user.email.split('@')[0];
+            return user.name.toLowerCase().includes(searchTerm) ||
+                   user.email.toLowerCase().includes(searchTerm) ||
+                   username.toLowerCase().includes(searchTerm);
+        });
+
+        elements.usersTableBody.innerHTML = '';
+        if (filteredUsers.length === 0) {
+            renderEmptyRow("Nenhum usuário encontrado.");
+            return;
+        }
+
+        filteredUsers.forEach(user => {
+            const tr = document.createElement('tr');
+            const isCurrentUser = user.id === state.currentUser.id;
+
+            const adminIcon = user.role === 'ADMIN'
+                ? '<i class="fa-solid fa-circle-check admin-icon yes" title="Administrador"></i>'
+                : '<i class="fa-solid fa-circle-xmark admin-icon no" title="Colaborador"></i>';
+
+            const username = user.email.split('@')[0];
+
+            tr.innerHTML = `
+                <td>${username}</td>
+                <td>${user.email}</td>
+                <td>${user.name}</td>
+                <td class="text-center">${adminIcon}</td>
+                <td class="text-end action-icons">
+                    <button class="btn-action edit" data-id="${user.id}" title="Editar">
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
+                    <button class="btn-action delete" data-id="${user.id}" title="Excluir" ${isCurrentUser ? 'disabled' : ''}>
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </td>
+            `;
+            elements.usersTableBody.appendChild(tr);
+        });
     }
 
     checkAuthentication();
